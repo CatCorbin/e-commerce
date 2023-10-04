@@ -6,10 +6,10 @@ const { Tag, Product, ProductTag } = require('../../models');
 router.get('/', async (req, res) => {
   // find all tags
   // be sure to include its associated Product data
-try{
+// try{
   const tagData = await Tag.findAll({
     include: [
-      {model: Product},
+      {model: Product, through: ProductTag},
     ],
   });
 
@@ -19,11 +19,11 @@ try{
   else{
     res.status(200).json(tagData);
   };
-}
-catch (err){
-  console.error(err);
-  res.status(500).json(err);
-};
+// }
+// catch (err){
+//   console.error(err);
+//   res.status(500).json(err);
+// };
 });
 
 router.get('/:id', async (req, res) => {
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 try{
   const tagData = await Tag.findByPk(req.params.id, {
     include: [
-      {model: Product},
+      {model: Product, through: ProductTag},
     ],
   });
 
@@ -51,7 +51,6 @@ catch (err){
 
 router.post('/', async (req, res) => {
   // create a new tag
-  const {tagName} = req.body;
   try{
     const tagData = await Tag.create(req.body);
 
@@ -70,7 +69,6 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
-  const {tagName} = req.body;
 
   try{
     const tagData = await Tag.update(req.body, {
