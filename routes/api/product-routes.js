@@ -11,7 +11,7 @@ try{
   const productData = await Product.findAll({
     include: [
       {model: Category},
-      {model:Tag},
+      {model:Tag, through: ProductTag},
     ],
   });
   if (!productData){
@@ -35,7 +35,7 @@ try{
   const productData = await Product.findByPk(req.params.id, {
     include: [
       {model: Category},
-      {model: Tag},
+      {model: Tag, through: ProductTag},
     ],
   });
 
@@ -61,7 +61,6 @@ router.post('/', (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
- const {productName, price, stock, tagIds} = req.body;
 
   Product.create(req.body)
     .then((product) => {
@@ -88,7 +87,6 @@ router.post('/', (req, res) => {
 // update product
 router.put('/:id', (req, res) => {
   // update product data
-  const {productName, price, stock, tagIds} = req.body;
 
   Product.update(req.body, {
     where: {

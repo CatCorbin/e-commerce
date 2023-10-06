@@ -47,10 +47,10 @@ router.get('/:id', async (req, res) => {
 //http://localhost:3001/api/categories/
 router.post('/', async (req, res) => {
   // create a new category
-  const {categoryName} = req.body;
+  const {category_name} = req.body;
   if(req.body){
     try {
-      const categoryData = await Category.create({categoryName});
+      const categoryData = await Category.create({category_name});
       if (!categoryData){
         res.status(404).json(categoryData);
       }
@@ -67,11 +67,11 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
-  const {categoryName} = req.body;
+  const {category_name} = req.body;
 
   if(req.body){
     try{
-      const categoryData = await Category.update({categoryName}, {
+      const categoryData = await Category.update({category_name}, {
         where: {
           id: req.params.id,
         },
